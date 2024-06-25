@@ -166,6 +166,26 @@ class Score:
         screen.blit(self.img, self.rct)
 
 
+class Explosion:
+    """
+    爆弾打ち落とし時の爆発エフェクトクラス
+    """
+    img_e = pg.image.load("fig/explosion.gif")
+    imgs_e = {
+            img_e, pg.transform.flip(img_e, False, False),  # 上
+            img_e, pg.transform.flip(img_e, False, True),  # 下
+            img_e, pg.transform.flip(img_e, False, False),  # 右
+            img_e, pg.transform.flip(img_e, True, False)  # 左
+            }
+    
+    def __init__(self):
+        """
+        爆発Surfaceを生成する
+        """
+        self.img = __class__.imgs_e
+        self.rct: pg.Rect = self.img.get_rect()
+        pass
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
