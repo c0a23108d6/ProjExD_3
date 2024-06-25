@@ -120,7 +120,6 @@ class Bomb:
         引数1 color：爆弾円の色タプル
         引数2 rad：爆弾円の半径
         """
-        rad = random.randint(10, 50)
         self.img = pg.Surface((2*rad, 2*rad))
         pg.draw.circle(self.img, color, (rad, rad), rad)
         self.img.set_colorkey((0, 0, 0))
@@ -174,7 +173,7 @@ def main():
     # beam = None
     beams = []
     # bomb = Bomb((255, 0, 0), 10)
-    bombs = [Bomb((255, 0, 0), 0) for _ in range(NUM_OF_BOMBS)]
+    bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
     score = Score()
     clock = pg.time.Clock()
     tmr = 0
