@@ -120,6 +120,7 @@ class Bomb:
         引数1 color：爆弾円の色タプル
         引数2 rad：爆弾円の半径
         """
+        rad = random.randint(10, 50)
         self.img = pg.Surface((2*rad, 2*rad))
         pg.draw.circle(self.img, color, (rad, rad), rad)
         self.img.set_colorkey((0, 0, 0))
@@ -141,6 +142,30 @@ class Bomb:
         screen.blit(self.img, self.rct)
 
 
+class Score:
+    """
+    撃ち落とした爆弾の数を表示するスコアクラス
+    """
+    def __init__(self):
+        """
+        スコアSurfaceを生成する
+        """
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.color = (0, 0, 255)
+        self.score = 0
+        self.img = self.fonto.render(f"スコア：{self.score}", 0, self.color)
+        self.rct = self.img.get_rect()
+        self.rct.center = (100, HEIGHT-50)
+
+    def update(self, screen: pg.Surface):
+        """
+        現在のスコアを表示させる
+        引数 screen：画面Surface
+        """
+        self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color)
+        screen.blit(self.img, self.rct)
+
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -149,6 +174,7 @@ def main():
     beam = None
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 0) for _ in range(NUM_OF_BOMBS)]
+    score = Score()
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -177,6 +203,7 @@ def main():
                     bombs[i] = None
                     beam = None
                     bird.change_img(6, screen)
+                    score.score += 1
         bombs = [bomb for bomb in bombs if bomb is not None]
 
 
@@ -186,6 +213,7 @@ def main():
             beam.update(screen)  
         for bomb in bombs:
             bomb.update(screen)
+        score.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
